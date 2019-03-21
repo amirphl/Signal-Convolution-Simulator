@@ -2,16 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>SCS</title>
 
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
-    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"-->
-    <!--integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"-->
-    <!--crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
             integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
             crossorigin="anonymous"></script>
@@ -20,6 +17,10 @@
             crossorigin="anonymous"></script>
 
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="my_graph.js"></script>
+    <script src="my_math.js"></script>
+    <script src="my_slider.js"></script>
+    <script src="my_buttons.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -29,15 +30,15 @@
 <div class="d-flex justify-content-between">
     <label class="w-25 p-3">
         shift f(x)
-        <input id="1" type="text" class="js-range-slider" name="f-shift" data-grid="true" width="50px"/>
-    </label>
-    <label class="w-25 p-3">
-        shift g(x)
-        <input id="2" type="text" class="js-range-slider" name="g-shift" data-grid="true"/>
+        <input id="1" type="text" class="js-range-slider" name="f-shift" data-grid="true"/>
     </label>
     <label class="w-25 p-3">
         f(x) domain
         <input id="3" type="text" class="js-range-slider" name="f-domain" data-grid="true"/>
+    </label>
+    <label class="w-25 p-3">
+        shift g(x)
+        <input id="2" type="text" class="js-range-slider" name="g-shift" data-grid="true"/>
     </label>
     <label class="w-25 p-3">
         g(x) domain
@@ -53,11 +54,66 @@
         <div id="graph-2"></div>
     </div>
 </div>
+<div class="w-100 p-3">
+    <button id="#00" type="button" class="btn btn-primary">sin ** sin</button>
+    <button id="#01" type="button" class="btn btn-primary">sin ** cos</button>
+    <button id="#02" type="button" class="btn btn-primary">sin ** exp</button>
+    <button id="#03" type="button" class="btn btn-primary">sin ** (sin*exp)</button>
+    <button id="#04" type="button" class="btn btn-primary">sin ** (cos*exp)</button>
+    <button id="#05" type="button" class="btn btn-primary">sin ** (u*exp)</button>
+    <button id="#06" type="button" class="btn btn-primary">sin ** (u*sin)</button>
+    <button id="#07" type="button" class="btn btn-primary">sin ** (u*cos)</button>
+</div>
+<div class="w-100 p-3">
+    <button id="#11" type="button" class="btn btn-success">cos ** cos</button>
+    <button id="#12" type="button" class="btn btn-success">cos ** exp</button>
+    <button id="#13" type="button" class="btn btn-success">cos ** (sin*exp)</button>
+    <button id="#14" type="button" class="btn btn-success">cos ** (cos*exp)</button>
+    <button id="#15" type="button" class="btn btn-success">cos ** (u*exp)</button>
+    <button id="#16" type="button" class="btn btn-success">cos ** (u*sin)</button>
+    <button id="#17" type="button" class="btn btn-success">cos ** (u*cos)</button>
+</div>
+<div class="w-100 p-3">
+    <button id="#22" type="button" class="btn btn-warning">exp ** exp</button>
+    <button id="#23" type="button" class="btn btn-warning">exp ** (sin*exp)</button>
+    <button id="#24" type="button" class="btn btn-warning">exp ** (cos*exp)</button>
+    <button id="#25" type="button" class="btn btn-warning">exp ** (u*exp)</button>
+    <button id="#26" type="button" class="btn btn-warning">exp ** (u*sin)</button>
+    <button id="#27" type="button" class="btn btn-warning">exp ** (u*cos)</button>
+</div>
+<div class="w-100 p-3">
+    <button id="#33" type="button" class="btn btn-danger">(sin*exp) ** (sin*exp)</button>
+    <button id="#34" type="button" class="btn btn-danger">(sin*exp) ** (cos*exp)</button>
+    <button id="#35" type="button" class="btn btn-danger">(sin*exp) ** (u*exp)</button>
+    <button id="#36" type="button" class="btn btn-danger">(sin*exp) ** (u*sin)</button>
+    <button id="#37" type="button" class="btn btn-danger">(sin*exp) ** (u*cos)</button>
+</div>
+<div class="w-100 p-3">
+    <button id="#44" type="button" class="btn btn-danger">(cos*exp) ** (cos*exp)</button>
+    <button id="#45" type="button" class="btn btn-danger">(cos*exp) ** (u*exp)</button>
+    <button id="#46" type="button" class="btn btn-danger">(cos*exp) ** (u*sin)</button>
+    <button id="#47" type="button" class="btn btn-danger">(cos*exp) ** (u*cos)</button>
+</div>
+<div class="w-100 p-3">
+    <button id="#55" type="button" class="btn btn-warning">(u*exp) ** (u*exp)</button>
+    <button id="#56" type="button" class="btn btn-warning">(u*exp) ** (u*sin)</button>
+    <button id="#57" type="button" class="btn btn-warning">(u*exp) ** (u*cos)</button>
+</div>
+<div class="w-100 p-3">
+    <button id="#66" type="button" class="btn btn-success">(u*sin) ** (u*sin)</button>
+    <button id="#67" type="button" class="btn btn-success">(u*sin) ** (u*cos)</button>
+</div>
+<div class="w-100 p-3">
+    <button id="#77" type="button" class="btn btn-primary">(u*cos) ** (u*cos)</button>
+</div>
+
+<div class="d-flex justify-content-between">
+    <div class="w-100 p-3">
+        <div id="convolution_graph"></div>
+    </div>
+</div>
 
 </body>
-<script src="my_graph.js"></script>
-<script src="my_math.js"></script>
-<script src="my_slider.js"></script>
 <script>
 
     $(document).ready(function () {

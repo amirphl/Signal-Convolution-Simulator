@@ -45,7 +45,7 @@ $(document).ready(function () {
             //TODO poor performance , perform efficient computation with considering computed part
             for (let t = 0; t <= (x_upperbound - x_lowerbound + 0.03) / 0.03; t++) { // TODO fix precision 99.0000000000000001
                 for (let u = 0; u <= 7; u++)
-                    fx_frames[u].data[0].x[t] = start;
+                    fx_frames[u].data[0].x[t] = parseFloat(start.toFixed(2));
                 fx_frames[0].data[0].y[t] = Math.sin(start + data.to);
                 fx_frames[1].data[0].y[t] = Math.cos(start + data.to);
                 fx_frames[2].data[0].y[t] = Math.exp(start + data.to);// TODO consider max int
@@ -56,7 +56,7 @@ $(document).ready(function () {
                 fx_frames[7].data[0].y[t] = heaviside(start + data.to) * Math.cos(start + data.to);// TODO consider zero part
                 start += 0.03;
             }
-            restyle_graph('graph-1', fx_frames, x_lowerbound, x_upperbound, -2, 2);// TODO compute y lower and upper
+            restyle_graph('graph-1', fx_frames, x_lowerbound, x_upperbound, -2, 2, "f(x)");// TODO compute y lower and upper
         },
         // onFinish: function (data) {
         //     // Called then action is done and mouse is released
@@ -75,7 +75,7 @@ $(document).ready(function () {
         to: 0,
         grid: true,
         onChange: function (data) {
-            // Called every time handle position is changed
+            // Called every time handle  position is changed
             let domain = $('#4').val().split(";");
             let x_lowerbound = parseInt(domain[0]);
             let x_upperbound = parseInt(domain[1]);
@@ -87,7 +87,7 @@ $(document).ready(function () {
             //TODO poor performance , perform efficient computation with considering computed part
             for (let t = 0; t <= (x_upperbound - x_lowerbound + 0.03) / 0.03; t++) { // TODO fix precision 99.0000000000000001
                 for (let u = 0; u <= 7; u++)
-                    gx_frames[u].data[0].x[t] = start;
+                    gx_frames[u].data[0].x[t] = parseFloat(start.toFixed(2));
                 gx_frames[0].data[0].y[t] = Math.sin(start + data.to);
                 gx_frames[1].data[0].y[t] = Math.cos(start + data.to);
                 gx_frames[2].data[0].y[t] = Math.exp(start + data.to);// TODO consider max int
@@ -98,7 +98,7 @@ $(document).ready(function () {
                 gx_frames[7].data[0].y[t] = heaviside(start + data.to) * Math.cos(start + data.to);// TODO consider zero part
                 start += 0.03;
             }
-            restyle_graph('graph-2', gx_frames, x_lowerbound, x_upperbound, -2, 2);// TODO compute y lower and upper
+            restyle_graph('graph-2', gx_frames, x_lowerbound, x_upperbound, -2, 2, "g(x)");// TODO compute y lower and upper
         },
     });
 
@@ -118,7 +118,7 @@ $(document).ready(function () {
             }
             for (let t = 0; t <= (data.to - data.from + 0.03) / 0.03; t++) { // TODO precision 99.0000000000000001
                 for (let u = 0; u <= 7; u++)
-                    fx_frames[u].data[0].x[t] = start;
+                    fx_frames[u].data[0].x[t] = parseFloat(start.toFixed(2));
                 fx_frames[0].data[0].y[t] = Math.sin(start);
                 fx_frames[1].data[0].y[t] = Math.cos(start);
                 fx_frames[2].data[0].y[t] = Math.exp(start);// TODO max int
@@ -129,7 +129,7 @@ $(document).ready(function () {
                 fx_frames[7].data[0].y[t] = heaviside(start) * Math.cos(start);
                 start += 0.03;
             }
-            restyle_graph('graph-1', fx_frames, data.from, data.to, -2, 2);// TODO y low and up
+            restyle_graph('graph-1', fx_frames, data.from, data.to, -2, 2, "f(x)");// TODO y low and up
         },
     });
 
@@ -149,7 +149,7 @@ $(document).ready(function () {
             }
             for (let t = 0; t <= (data.to - data.from + 0.03) / 0.03; t++) { // TODO precision 99.0000000000000001
                 for (let u = 0; u <= 7; u++)
-                    gx_frames[u].data[0].x[t] = start;
+                    gx_frames[u].data[0].x[t] = parseFloat(start.toFixed(2));
                 gx_frames[0].data[0].y[t] = Math.sin(start);
                 gx_frames[1].data[0].y[t] = Math.cos(start);
                 gx_frames[2].data[0].y[t] = Math.exp(start);
@@ -160,7 +160,7 @@ $(document).ready(function () {
                 gx_frames[7].data[0].y[t] = heaviside(start) * Math.cos(start);
                 start += 0.03;
             }
-            restyle_graph('graph-2', gx_frames, data.from, data.to, -2, 2);// TODO y low and up
+            restyle_graph('graph-2', gx_frames, data.from, data.to, -2, 2, "g(x)");// TODO y low and up
         },
     });
 });
