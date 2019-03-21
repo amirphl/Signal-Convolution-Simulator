@@ -20,7 +20,7 @@ var gx_frames = [
     {name: 'cosine-step', data: [{x: [], y: []}]},
 ];
 
-my_updatemenus = [{
+const my_updatemenus = [{
     buttons: [
         {method: 'animate', args: [['sine']], label: 'sin(x)'},
         {method: 'animate', args: [['cosine']], label: 'cos(x)'},
@@ -32,7 +32,7 @@ my_updatemenus = [{
         {method: 'animate', args: [['cosine-step']], label: 'u(x) * cos(x)'},
     ]
 }];
-my_sliders = [{
+const my_sliders = [{
     pad: {t: 10},
     len: 0.4,
     x: 0,
@@ -47,6 +47,10 @@ my_sliders = [{
     // If all of a component's commands affect a single attribute, the component
     // will be bound to the plot and will automatically update to reflect changes.
     steps: [{
+        label: 'blue',
+        method: 'restyle',
+        args: ['line.color', 'blue']
+    }, {
         label: 'red',
         method: 'restyle',
         args: ['line.color', 'red']
@@ -54,10 +58,6 @@ my_sliders = [{
         label: 'green',
         method: 'restyle',
         args: ['line.color', 'green']
-    }, {
-        label: 'blue',
-        method: 'restyle',
-        args: ['line.color', 'blue']
     }]
 }];
 
@@ -79,38 +79,44 @@ function restyle_graph(graph_id, frames, x_lowerbound, x_upperbound, y_lowerboun
 }
 
 function create_graph(graph_id, my_title) {
+    let selected_frame = [];
+    if (graph_id === "graph-1")
+        selected_frame = fx_frames;
+    else if (graph_id === "graph-2")
+        selected_frame = gx_frames;
+
     let n = 1000;
     for (let i = 0; i <= n; i++) {
         let t = (2 * (i - n / 2) / n);
 
-        fx_frames[0].data[0].x[i] = t * Math.PI;
-        fx_frames[0].data[0].y[i] = Math.sin(t * Math.PI);
+        selected_frame[0].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[0].data[0].y[i] = (Math.sin(t * Math.PI)).toFixed(2);
 
-        fx_frames[1].data[0].x[i] = t * Math.PI;
-        fx_frames[1].data[0].y[i] = Math.cos(t * Math.PI);
+        selected_frame[1].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[1].data[0].y[i] = (Math.cos(t * Math.PI)).toFixed(2);
 
-        fx_frames[2].data[0].x[i] = t * Math.PI;
-        fx_frames[2].data[0].y[i] = Math.exp(t * Math.PI);
+        selected_frame[2].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[2].data[0].y[i] = (Math.exp(t * Math.PI)).toFixed(2);
 
-        fx_frames[3].data[0].x[i] = t * Math.PI;
-        fx_frames[3].data[0].y[i] = Math.sin(t * Math.PI) * Math.exp(t * Math.PI);
+        selected_frame[3].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[3].data[0].y[i] = (Math.sin(t * Math.PI) * Math.exp(t * Math.PI)).toFixed(2);
 
-        fx_frames[4].data[0].x[i] = t * Math.PI;
-        fx_frames[4].data[0].y[i] = Math.cos(t * Math.PI) * Math.exp(t * Math.PI);
+        selected_frame[4].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[4].data[0].y[i] = (Math.cos(t * Math.PI) * Math.exp(t * Math.PI)).toFixed(2);
 
-        fx_frames[5].data[0].x[i] = t * Math.PI;
-        fx_frames[5].data[0].y[i] = heaviside(t * Math.PI) * Math.exp(t * Math.PI);
+        selected_frame[5].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[5].data[0].y[i] = (heaviside(t * Math.PI) * Math.exp(t * Math.PI)).toFixed(2);
 
-        fx_frames[6].data[0].x[i] = t * Math.PI;
-        fx_frames[6].data[0].y[i] = heaviside(t * Math.PI) * Math.sin(t * Math.PI);
+        selected_frame[6].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[6].data[0].y[i] = (heaviside(t * Math.PI) * Math.sin(t * Math.PI)).toFixed(2);
 
-        fx_frames[7].data[0].x[i] = t * Math.PI;
-        fx_frames[7].data[0].y[i] = heaviside(t * Math.PI) * Math.cos(t * Math.PI);
+        selected_frame[7].data[0].x[i] = (t * Math.PI).toFixed(2);
+        selected_frame[7].data[0].y[i] = (heaviside(t * Math.PI) * Math.cos(t * Math.PI)).toFixed(2);
     }
 
     let f_initial_data = [{
-        x: fx_frames[0].data[0].x,
-        y: fx_frames[0].data[0].y,
+        x: selected_frame[0].data[0].x,
+        y: selected_frame[0].data[0].y,
         line: {simplify: false},
     }];
 
@@ -121,6 +127,6 @@ function create_graph(graph_id, my_title) {
         updatemenus: my_updatemenus,
         sliders: my_sliders
     }).then(function () {
-        Plotly.addFrames(graph_id, fx_frames);
+        Plotly.addFrames(graph_id, selected_frame);
     });
 }
