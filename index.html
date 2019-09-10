@@ -1,125 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SCS</title>
+    <meta charset="utf-8">
+    <title></title>
 
+    <link rel="stylesheet" href="./bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="./bootstrap/introjs.min.css">
+    <link rel="stylesheet" href="./lib/ion.rangeSlider.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script src="./bootstrap/jquery-3.3.1.min.js"></script>
+    <script src="./bootstrap/popper.min.js"></script>
+    <script src="./bootstrap/bootstrap.min.js"></script>
+    <script src="./bootstrap/intro.min.js"></script>
+    <script src="./lib/ion.rangeSlider.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/nicolaspanel/numjs@0.15.1/dist/numjs.min.js"></script>-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-            crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-            crossorigin="anonymous"></script>
+    <script src="./lib/lodash.min.js"></script>
+    <script src="./lib/math.min.js"></script>
 
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script src="my_graph.js"></script>
-    <script src="my_math.js"></script>
-    <script src="my_slider.js"></script>
-    <script src="my_buttons.js"></script>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/css/ion.rangeSlider.min.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="./js/customized_functions.js"></script>
+    <script src="./js/fft.bundle.js"></script>
+    <script src="./js/plot.js"></script>
+    <script src="./js/events.js"></script>
+    <script src="./js/slider.js"></script>
+    <script src="./js/main.js"></script>
+
 </head>
+
 <body>
-<div class="d-flex justify-content-between">
-    <label class="w-25 p-3">
-        shift f(x)
-        <input id="1" type="text" class="js-range-slider" name="f-shift" data-grid="true"/>
+<section class="pt-5 pb-5 mt-0 mb-5 align-items-center d-flex bg-dark"
+         style="height:100vh; background-size: cover; background-image: url(./images/head.jpg);">
+
+    <div class="container-fluid">
+        <div class="row justify-content-center align-items-center d-flex text-center h-100">
+            <div class="col-12 col-md-8  h-50 ">
+                <h5 class="display-2 text-light mb-2 mt-5"><strong class="text-info"></strong></h5>
+                <p><a class="btn bg-danger btn-round text-light btn-lg btn-rised"
+                      onclick="introJs().start()">Get
+                    Started Now ></a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- sliders -->
+<div class="d-flex flex-row justify-content-between p-4">
+    <label class="col-3 text-center" data-step="1"
+           data-intro="Ok, let's start. This slider determines how much shift added to f(x). Currently it is 0.">
+        Shift of f(x) <br/>
+        <input id="slider_shift_f" type="text" class="js-range-slider mt-4" data-type="single" data-min="-50"
+               data-max="50" data-from="0" data-grid="true"/>
     </label>
-    <label class="w-25 p-3">
-        f(x) domain
-        <input id="3" type="text" class="js-range-slider" name="f-domain" data-grid="true"/>
+    <label class="col-3 text-center" data-step="2"
+           data-intro="This slider determines the range of f(x). Currently it is [-3,3].">
+        Range of f(x) <br/>
+        <input id="slider_range_f" type="text" class="js-range-slider mt-4" data-type="double" data-min="-50"
+               data-max="50" data-from="-3" data-to="3" data-grid="true"/>
     </label>
-    <label class="w-25 p-3">
-        shift g(x)
-        <input id="2" type="text" class="js-range-slider" name="g-shift" data-grid="true"/>
+    <label class="col-3 text-center" data-step="3"
+           data-intro="This slider determines how much shift added to g(x). Currently it is 0.">
+        Shift of g(x) <br/>
+        <input id="slider_shift_g" type="text" class="js-range-slider mt-4" data-type="single" data-min="-50"
+               data-max="50" data-from="0" data-grid="true"/>
     </label>
-    <label class="w-25 p-3">
-        g(x) domain
-        <input id="4" type="text" class="js-range-slider" name="g-domain" data-grid="true"/>
+    <label class="col-3 text-center" data-step="4"
+           data-intro="This slider determines the range of g(x). Currently it is [-3,3].">
+        Range of g(x) <br/>
+        <input id="slider_range_g" type="text" class="js-range-slider mt-4" data-type="double" data-min="-50"
+               data-max="50" data-from="-3" data-to="3" data-grid="true"/>
     </label>
 </div>
 
-<div class="d-flex justify-content-between">
-    <div class="w-50 p-3">
-        <div id="graph-1"></div>
+<!-- graphs -->
+<div class="d-flex flex-row justify-content-between p-4">
+    <div class="input-group col-6" data-step="5"
+         data-intro="Write the f(x) in the box,then press ENTER. For example sin(x+2)*exp(x).After pressing ENTER, you can see f(x) diagram below.">
+        <select class="custom-select col-2" id="sel_func_f">
+            <option selected>sin(x)</option>
+            <option>cos(x)</option>
+            <option>exp(x)</option>
+            <option>heaviside(x)</option>
+        </select>
+        <div class="input-group-append col-10">
+            <input id="txt_func_f" type="text" class="col-8">
+            <div id="invalid_f_error" class="col-4 text-danger"><br/></div>
+            <!-- <button class="btn btn-outline-primary col-2" id="btn_plot_f">Plot</button> -->
+        </div>
     </div>
-    <div class="w-50 p-3">
-        <div id="graph-2"></div>
+
+    <div class="input-group col-6" data-step="6"
+         data-intro="Write the g(x) in the box,then press ENTER. For example heaviside(x+2)*cos(x/3).After pressing ENTER, you can see g(x) diagram below.">
+        <select class="custom-select col-2" id="sel_func_g">
+            <option>sin(x)</option>
+            <option selected>cos(x)</option>
+            <option>exp(x)</option>
+            <option>heaviside(x)</option>
+        </select>
+        <div class="input-group-append col-10">
+            <input id="txt_func_g" type="text" class="col-8">
+            <div id="invalid_g_error" class="col-4 text-danger"><br/></div>
+            <!-- <button class="btn btn-outline-success col-2" id="btn_plot_g">Plot</button> -->
+        </div>
     </div>
-</div>
-<div class="w-100 p-3">
-    <button id="#00" type="button" class="btn btn-primary">sin ** sin</button>
-    <button id="#01" type="button" class="btn btn-primary">sin ** cos</button>
-    <button id="#02" type="button" class="btn btn-primary">sin ** exp</button>
-    <button id="#03" type="button" class="btn btn-primary">sin ** (sin*exp)</button>
-    <button id="#04" type="button" class="btn btn-primary">sin ** (cos*exp)</button>
-    <button id="#05" type="button" class="btn btn-primary">sin ** (u*exp)</button>
-    <button id="#06" type="button" class="btn btn-primary">sin ** (u*sin)</button>
-    <button id="#07" type="button" class="btn btn-primary">sin ** (u*cos)</button>
-</div>
-<div class="w-100 p-3">
-    <button id="#11" type="button" class="btn btn-success">cos ** cos</button>
-    <button id="#12" type="button" class="btn btn-success">cos ** exp</button>
-    <button id="#13" type="button" class="btn btn-success">cos ** (sin*exp)</button>
-    <button id="#14" type="button" class="btn btn-success">cos ** (cos*exp)</button>
-    <button id="#15" type="button" class="btn btn-success">cos ** (u*exp)</button>
-    <button id="#16" type="button" class="btn btn-success">cos ** (u*sin)</button>
-    <button id="#17" type="button" class="btn btn-success">cos ** (u*cos)</button>
-</div>
-<div class="w-100 p-3">
-    <button id="#22" type="button" class="btn btn-warning">exp ** exp</button>
-    <button id="#23" type="button" class="btn btn-warning">exp ** (sin*exp)</button>
-    <button id="#24" type="button" class="btn btn-warning">exp ** (cos*exp)</button>
-    <button id="#25" type="button" class="btn btn-warning">exp ** (u*exp)</button>
-    <button id="#26" type="button" class="btn btn-warning">exp ** (u*sin)</button>
-    <button id="#27" type="button" class="btn btn-warning">exp ** (u*cos)</button>
-</div>
-<div class="w-100 p-3">
-    <button id="#33" type="button" class="btn btn-danger">(sin*exp) ** (sin*exp)</button>
-    <button id="#34" type="button" class="btn btn-danger">(sin*exp) ** (cos*exp)</button>
-    <button id="#35" type="button" class="btn btn-danger">(sin*exp) ** (u*exp)</button>
-    <button id="#36" type="button" class="btn btn-danger">(sin*exp) ** (u*sin)</button>
-    <button id="#37" type="button" class="btn btn-danger">(sin*exp) ** (u*cos)</button>
-</div>
-<div class="w-100 p-3">
-    <button id="#44" type="button" class="btn btn-danger">(cos*exp) ** (cos*exp)</button>
-    <button id="#45" type="button" class="btn btn-danger">(cos*exp) ** (u*exp)</button>
-    <button id="#46" type="button" class="btn btn-danger">(cos*exp) ** (u*sin)</button>
-    <button id="#47" type="button" class="btn btn-danger">(cos*exp) ** (u*cos)</button>
-</div>
-<div class="w-100 p-3">
-    <button id="#55" type="button" class="btn btn-warning">(u*exp) ** (u*exp)</button>
-    <button id="#56" type="button" class="btn btn-warning">(u*exp) ** (u*sin)</button>
-    <button id="#57" type="button" class="btn btn-warning">(u*exp) ** (u*cos)</button>
-</div>
-<div class="w-100 p-3">
-    <button id="#66" type="button" class="btn btn-success">(u*sin) ** (u*sin)</button>
-    <button id="#67" type="button" class="btn btn-success">(u*sin) ** (u*cos)</button>
-</div>
-<div class="w-100 p-3">
-    <button id="#77" type="button" class="btn btn-primary">(u*cos) ** (u*cos)</button>
 </div>
 
-<div class="d-flex justify-content-between">
-    <div class="w-100 p-3">
-        <div id="convolution_graph"></div>
+<div class="d-flex flex-row justify-content-between" style="min-height: 100px;">
+    <div class="col-6">
+        <div id="graph_f"></div>
+    </div>
+    <div class="col-6">
+        <div id="graph_g"></div>
     </div>
 </div>
+<br/>
+<div class="d-flex flex-row justify-content-center">
+    <button class="btn btn-primary col-2" id="btn_calc_conv" data-step="7"
+            data-intro="You can press this button to start calculation of convolution of f(x) and g(x). After some seconds, diagram of f(x)**g(x) will be displayed in a box below this button.">
+        <i id="loading_icon"></i>Calculate Convolution
+    </button>
+</div>
+
+<div class="d-flex flex-row justify-content-center">
+    <div class="col-8">
+        <div id="graph_conv"></div>
+    </div>
+</div>
+
+<div class="d-flex flex-row justify-content-between p-4">
+    <button class="btn btn-success col-2" id="btn_calc_fft_f" data-step="8"
+            data-intro="You can press this button to start calculation of fast fourier transform(FFT) of f(x). After a few moments, diagram of FFT{f(x)} will be displayed in a box below this button.">
+        Calculate<br/>FFT: F(f)
+    </button>
+    <button class="btn btn-warning col-2" id="btn_calc_fft_g" data-step="9"
+            data-intro="You can press this button to start calculation of fast fourier transform(FFT) of g(x). After a few moments, diagram of FFT{g(x)} will be displayed in a box below this button.">
+        Calculate<br/>FFT: G(f)
+    </button>
+</div>
+
+<div class="d-flex flex-row justify-content-center">
+    <div class="col-6">
+        <div id="graph_fft_f"></div>
+    </div>
+
+    <div class="col-6">
+        <div id="graph_fft_g"></div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <h1 class="text-primary">Important Notes</h1>
+    <p class="text-danger bg-light">Make sure that f(x) and g(x) are valid functions before starting
+        convolution.</p>
+    <p class="text-danger bg-light">Consider the shift and range of f(x) and g(x). They affect the result of
+        convolution. For
+        example consider the following diagram:</p>
+    <img src="./images/fx.PNG" class="rounded mx-auto d-block">
+    <p class="text-danger bg-light">You may think this diagram equals heaviside(x) while it equals heaviside(x) -
+        heaviside(x-3).
+        Take care!!! (In this example the range is [-3,3].)</p>
+    <p class="text-success bg-light">You can save any diagram. Zoom, AutoScale and many other options are available on
+        top of every diagram by hovering it.</p>
+</div>
+
+<footer class="page-footer font-small bg-primary pt-4">
+    <div class="container-fluid text-center text-md-left">
+        <div class="row">
+            <div class="col-md-6 mt-md-0 mt-3">
+                <h5 class="text-uppercase">Signal Convolution Simulator</h5>
+                <p>Designers: Amir M PirHosseinLoo (amirphl), Pooria MalekiFar</p>
+                <p>Under supervision of Dr. Rahmati</p>
+                <p>Computer Engineering and IT department (CEIT)</p>
+                <p>Amirkabir university of technology (AUT)</p>
+            </div>
+            <hr class="clearfix w-100 d-md-none pb-3">
+            <div class="col-md-3 mb-md-0 mb-3">
+                <h5 class="text-uppercase">Links</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="https://github.com/amirphl" class="text-dark">amirphl (github)</a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/amirphl" class="text-dark">amirphl (instagram)</a>
+                    </li>
+                    <li>
+                        <a href="pooryamalekifard@gmail.com" class="text-dark">Pooria MalekiFar</a>
+                    </li>
+                    <li>
+                        <a href="https://ceit.aut.ac.ir" class="text-dark">CEIT</a>
+                    </li>
+                    <li>
+                        <a href="http://aut.ac.ir" class="text-dark">AUT</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright text-center py-3">
+        <a href="https://github.com/amirphl/Signal-Convolution-Simulator" class="text-dark">Source Code is available on
+            Github.(click
+            me!!)</a>
+    </div>
+</footer>
 
 </body>
-<script>
-
-    $(document).ready(function () {
-        create_graph('graph-1', "f(x)");
-        create_graph('graph-2', "g(x)");
-    });
-
-</script>
 </html>
